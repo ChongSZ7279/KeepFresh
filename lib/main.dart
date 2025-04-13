@@ -47,6 +47,7 @@ class FoodItem {
   final String expiry;
   final String category;
   final int daysLeft;
+  final String image;
 
   FoodItem({
     required this.id,
@@ -54,6 +55,7 @@ class FoodItem {
     required this.expiry,
     required this.category,
     required this.daysLeft,
+    required this.image,
   });
 }
 
@@ -155,11 +157,11 @@ class _InventoryPageState extends State<InventoryPage> {
   
   // Mock data
   final List<FoodItem> _items = [
-    FoodItem(id: 1, name: 'Milk', expiry: '2025-04-15', category: 'Dairy', daysLeft: 2),
-    FoodItem(id: 2, name: 'Eggs', expiry: '2025-04-20', category: 'Dairy', daysLeft: 7),
-    FoodItem(id: 3, name: 'Avocado', expiry: '2025-04-14', category: 'Produce', daysLeft: 1),
-    FoodItem(id: 4, name: 'Chicken Breast', expiry: '2025-04-13', category: 'Meat', daysLeft: 0),
-    FoodItem(id: 5, name: 'Spinach', expiry: '2025-04-12', category: 'Produce', daysLeft: -1),
+    FoodItem(id: 1, name: 'Milk', expiry: '2025-04-15', category: 'Dairy', daysLeft: 2,image: 'images/milk.png',),
+    FoodItem(id: 2, name: 'Eggs', expiry: '2025-04-20', category: 'Dairy', daysLeft: 7, image: 'images/eggs.png'),
+    FoodItem(id: 3, name: 'Avocado', expiry: '2025-04-14', category: 'Produce', daysLeft: 1, image: 'images/avocado.jpg'),
+    FoodItem(id: 4, name: 'Chicken Breast', expiry: '2025-04-13', category: 'Meat', daysLeft: 0,  image: 'images/chicken.jpg'),
+    FoodItem(id: 5, name: 'Spinach', expiry: '2025-04-12', category: 'Produce', daysLeft: -1,image: 'images/spinach.png'),
   ];
 
   @override
@@ -279,6 +281,16 @@ class _InventoryPageState extends State<InventoryPage> {
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
                             children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  item.image,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,13 +348,14 @@ class _InventoryPageState extends State<InventoryPage> {
                                   color: Colors.grey,
                                 ),
                                 onPressed: () {
-                                  // Delete functionality would go here
+                                  // Delete functionality
                                 },
                               ),
                             ],
                           ),
                         ),
                       );
+
                     },
                   ),
           ),
@@ -582,19 +595,19 @@ class _RecipesPageState extends State<RecipesPage> {
       id: 1,
       name: 'Avocado Toast with Eggs',
       ingredients: ['Avocado', 'Eggs', 'Bread'],
-      image: 'assets/recipe1.jpg',
+      image: 'images/recipe1.jpg',
     ),
     Recipe(
       id: 2,
       name: 'Creamy Spinach Chicken',
       ingredients: ['Chicken Breast', 'Spinach', 'Milk'],
-      image: 'assets/recipe2.jpg',
+      image: 'images/recipe2.jpg',
     ),
     Recipe(
       id: 3,
       name: 'Classic Omelette',
       ingredients: ['Eggs', 'Milk', 'Spinach'],
-      image: 'assets/recipe3.jpg',
+      image: 'images/recipe3.png',
     ),
   ];
 
@@ -639,13 +652,19 @@ class _RecipesPageState extends State<RecipesPage> {
                       Container(
                         height: 200,
                         color: Colors.grey[300],
-                        child: Center(
-                          child: Icon(
-                            Icons.image,
-                            size: 64,
-                            color: Colors.grey[400],
-                          ),
+                        child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          _selectedRecipe!.image,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 50,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(child: Icon(Icons.broken_image));
+                          },
                         ),
+                      ),
+
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -768,13 +787,16 @@ class _RecipesPageState extends State<RecipesPage> {
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Center(
-                              child: Icon(
-                                Icons.image,
-                                size: 32,
-                                color: Colors.grey[400],
-                              ),
+                            child: Image.asset(
+                              recipe.image,
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(child: Icon(Icons.broken_image, size: 64));
+                              },
                             ),
+
                           ),
                           const SizedBox(width: 16),
                           Expanded(
@@ -821,12 +843,12 @@ class AlertsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Mock data
     final List<FoodItem> expiredItems = [
-      FoodItem(id: 5, name: 'Spinach', expiry: '2025-04-12', category: 'Produce', daysLeft: -1),
+      FoodItem(id: 5, name: 'Spinach', expiry: '2025-04-12', category: 'Produce', daysLeft: -1,image: 'images/spinach.png'),
     ];
     
     final List<FoodItem> expiringItems = [
-      FoodItem(id: 3, name: 'Avocado', expiry: '2025-04-14', category: 'Produce', daysLeft: 1),
-      FoodItem(id: 4, name: 'Chicken Breast', expiry: '2025-04-13', category: 'Meat', daysLeft: 0),
+      FoodItem(id: 3, name: 'Avocado', expiry: '2025-04-14', category: 'Produce', daysLeft: 1,image: 'images/avocado.jpg'),
+      FoodItem(id: 4, name: 'Chicken Breast', expiry: '2025-04-13', category: 'Meat', daysLeft: 0, image: 'images/chicken.jpg'),
     ];
 
     return Padding(
