@@ -14,15 +14,15 @@ class MyApp extends StatelessWidget {
       title: 'Fresh Keeper',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF568203), // avocado green
-        scaffoldBackgroundColor: const Color(0xFFF8FAF0), // very light green/cream
+        primaryColor: const Color.fromARGB(255, 94, 181, 134), // dark sage green
+        scaffoldBackgroundColor: const Color(0xFFF1F5E9), // soft cream
         fontFamily: 'Roboto',
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF568203),
+          backgroundColor: Color.fromARGB(255, 106, 205, 152),
           foregroundColor: Colors.white,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xFF8FB33B), // lighter green
+          backgroundColor: Color(0xFF62A585), // medium sage green
         ),
       ),
       home: const MainScreen(),
@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
 
 // Colors for the app theme
 class AppColors {
-  static const primary = Color(0xFF568203); // avocado green
-  static const secondary = Color(0xFF8FB33B); // lighter green
-  static const background = Color(0xFFF8FAF0); // very light green/cream
-  static const accent = Color(0xFF663D0C); // avocado pit brown
-  static const danger = Color(0xFFE74C3C); // alert red
+  static const primary = Color.fromARGB(255, 109, 214, 158); // dark sage green
+  static const secondary = Color.fromARGB(255, 106, 203, 157); // medium sage green
+  static const background = Color(0xFFF1F5E9); // soft cream
+  static const accent = Color(0xFF95C6A5); // light sage green
+  static const danger = Color(0xFFE74C3C); // alert red (kept for warnings)
   static const text = Color(0xFF2C3E50); // dark text
 }
 
@@ -1015,114 +1015,115 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          // User avatar
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: AppColors.secondary,
-            child: const Icon(
-              Icons.person,
-              size: 50,
-              color: Colors.white,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            // User avatar
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: AppColors.secondary,
+              child: const Icon(
+                Icons.person,
+                size: 50,
+                color: Colors.white,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          // User name
-          const Text(
-            'John Doe',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 16),
+            // User name
+            const Text(
+              'John Doe',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'john.doe@example.com',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16,
+            const SizedBox(height: 4),
+            Text(
+              'john.doe@example.com',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 16,
+              ),
             ),
-          ),
-          const SizedBox(height: 32),
-          // Settings sections
-          const _SettingsSection(
-            title: 'Preferences',
-            items: [
-              _SettingsItem(
-                icon: Icons.notifications_active,
-                title: 'Notifications',
-                subtitle: 'Configure expiry alerts',
-              ),
-              _SettingsItem(
-                icon: Icons.calendar_today,
-                title: 'Default Expiry Period',
-                subtitle: 'Set default expiry dates',
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const _SettingsSection(
-            title: 'Account',
-            items: [
-              _SettingsItem(
-                icon: Icons.security,
-                title: 'Security',
-                subtitle: 'Manage password and security settings',
-              ),
-              _SettingsItem(
-                icon: Icons.phonelink_setup,
-                title: 'Connected Devices',
-                subtitle: 'Sync with smart refrigerator',
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const _SettingsSection(
-            title: 'Support',
-            items: [
-              _SettingsItem(
-                icon: Icons.help_outline,
-                title: 'Help Center',
-                subtitle: 'FAQs and user guides',
-              ),
-              _SettingsItem(
-                icon: Icons.feedback,
-                title: 'Send Feedback',
-                subtitle: 'Help us improve the app',
-              ),
-            ],
-          ),
-          const Spacer(),
-          // Logout button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[200],
-                foregroundColor: Colors.black87,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            const SizedBox(height: 32),
+            // Settings sections
+            const _SettingsSection(
+              title: 'Preferences',
+              items: [
+                _SettingsItem(
+                  icon: Icons.notifications_active,
+                  title: 'Notifications',
+                  subtitle: 'Configure expiry alerts',
                 ),
+                _SettingsItem(
+                  icon: Icons.calendar_today,
+                  title: 'Default Expiry Period',
+                  subtitle: 'Set default expiry dates',
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const _SettingsSection(
+              title: 'Account',
+              items: [
+                _SettingsItem(
+                  icon: Icons.security,
+                  title: 'Security',
+                  subtitle: 'Manage password and security settings',
+                ),
+                _SettingsItem(
+                  icon: Icons.phonelink_setup,
+                  title: 'Connected Devices',
+                  subtitle: 'Sync with smart refrigerator',
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const _SettingsSection(
+              title: 'Support',
+              items: [
+                _SettingsItem(
+                  icon: Icons.help_outline,
+                  title: 'Help Center',
+                  subtitle: 'FAQs and user guides',
+                ),
+                _SettingsItem(
+                  icon: Icons.feedback,
+                  title: 'Send Feedback',
+                  subtitle: 'Help us improve the app',
+                ),
+              ],
+            ),
+            // Logout button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[200],
+                  foregroundColor: Colors.black87,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Log Out'),
               ),
-              child: const Text('Log Out'),
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Fresh Keeper v1.0.0',
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 12,
+            const SizedBox(height: 16),
+            Text(
+              'Fresh Keeper v1.0.0',
+              style: TextStyle(
+                color: Colors.grey[500],
+                fontSize: 12,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-        ],
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
     );
   }
