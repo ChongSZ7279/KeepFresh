@@ -65,12 +65,14 @@ class Recipe {
   final String name;
   final List<String> ingredients;
   final String image;
+  final String instructions;
 
   Recipe({
     required this.id,
     required this.name,
     required this.ingredients,
     required this.image,
+    required this.instructions,
   });
 }
 
@@ -154,7 +156,8 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchTerm = '';
-  
+  String _selectedCategory = 'All';
+
   // Mock data
   final List<FoodItem> _items = [
     FoodItem(id: 1, name: 'Milk', expiry: '2025-04-15', category: 'Dairy', daysLeft: 2,image: 'images/milk.png',),
@@ -182,10 +185,13 @@ class _InventoryPageState extends State<InventoryPage> {
 
   // Get filtered items based on search term
   List<FoodItem> get _filteredItems {
-    return _items.where((item) => 
-      item.name.toLowerCase().contains(_searchTerm.toLowerCase())
-    ).toList();
-  }
+  return _items.where((item) {
+    final matchesSearch = item.name.toLowerCase().contains(_searchTerm.toLowerCase());
+    final matchesCategory = _selectedCategory == 'All' || item.category == _selectedCategory;
+    return matchesSearch && matchesCategory;
+  }).toList();
+}
+
 
   // Get expiry status color and text
   Map<String, dynamic> _getExpiryStatus(int daysLeft) {
@@ -255,7 +261,60 @@ class _InventoryPageState extends State<InventoryPage> {
             ],
           ),
           const SizedBox(height: 16),
-          
+                
+          // Category list with tappable chips
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                'All',
+                'Produce',
+                'Dairy',
+                'Meat',
+                'Seafood',
+                'Bakery',
+                'Pantry',
+                'Frozen',
+                'Beverages',
+                'Other',
+              ].map((category) {
+                final isSelected = _selectedCategory == category;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedCategory = category;
+                    });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                    color: isSelected 
+                        ? AppColors.secondary 
+                        : const Color.fromARGB(255, 245, 245, 245),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isSelected ? AppColors.secondary : const Color.fromARGB(255, 212, 220, 217),
+                      width: 1,
+                    ),
+                  ),
+
+                    child: Text(
+                      category,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isSelected ? Colors.white : Colors.black,
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
           // List of items
           Expanded(
             child: _filteredItems.isEmpty
@@ -515,6 +574,18 @@ class _ScannerPageState extends State<ScannerPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                       // Image goes here
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            'images/yogurt.jpg',
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       TextFormField(
                         initialValue: _scannedItem!['name'],
@@ -553,7 +624,7 @@ class _ScannerPageState extends State<ScannerPage> {
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey,
+                                backgroundColor: const Color.fromARGB(255, 224, 224, 224),
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                               ),
                               child: const Text('Cancel'),
@@ -592,23 +663,82 @@ class RecipesPage extends StatefulWidget {
 class _RecipesPageState extends State<RecipesPage> {
   final List<Recipe> _recipes = [
     Recipe(
-      id: 1,
-      name: 'Avocado Toast with Eggs',
-      ingredients: ['Avocado', 'Eggs', 'Bread'],
-      image: 'images/recipe1.jpg',
-    ),
-    Recipe(
-      id: 2,
-      name: 'Creamy Spinach Chicken',
-      ingredients: ['Chicken Breast', 'Spinach', 'Milk'],
-      image: 'images/recipe2.jpg',
-    ),
-    Recipe(
-      id: 3,
-      name: 'Classic Omelette',
-      ingredients: ['Eggs', 'Milk', 'Spinach'],
-      image: 'images/recipe3.png',
-    ),
+  id: 1,
+  name: 'Avocado Toast with Eggs',
+  ingredients: ['Avocado', 'Eggs', 'Bread'],
+  image: 'images/recipe1.jpg',
+  instructions: '''
+1. Use a fork to smash the avocado down onto the toasted bread slice.
+
+2. Slice the hard-boiled egg into coins, and then place them on top of the smashed avocado.
+
+3. Finish by sprinkling a little pepper, salt, and a very light drizzle of olive oil on top of the egg.
+''',
+  ),
+
+  Recipe(
+    id: 2,
+    name: 'Creamy Spinach Chicken',
+    ingredients: ['Chicken Breast', 'Spinach', 'Milk'],
+    image: 'images/recipe2.jpg',
+    instructions: '''
+1. Season the chicken breast with salt and pepper, then cook in a skillet over medium heat until golden brown and fully cooked. Remove and set aside.
+
+2. In the same skillet, add spinach and cook until wilted.
+
+3. Pour in the milk and stir until it begins to simmer. Let it reduce slightly to form a creamy sauce.
+
+4. Return the chicken to the skillet and coat it with the creamy spinach sauce.
+
+5. Simmer for a few more minutes and serve warm.
+''',
+
+  ),
+  Recipe(
+    id: 3,
+    name: 'Classic Omelette',
+    ingredients: ['Eggs', 'Milk', 'Spinach'],
+    image: 'images/recipe3.png',
+    instructions: '''
+1. Crack the eggs into a bowl, add milk, and whisk until well combined.
+
+2. Heat a non-stick pan over medium heat and lightly grease it with oil or butter.
+
+3. Pour the egg mixture into the pan and cook for a minute until it starts to set.
+
+4. Sprinkle chopped spinach evenly over the eggs.
+
+5. Cook until the eggs are fully set, then fold the omelette in half.
+''',
+  ),
+  Recipe(
+    id: 4,
+    name: 'Chicken and Spinach Scramble',
+    ingredients: ['Eggs', 'Milk', 'Spinach', 'Chicken Breast'],
+    image: 'images/recipe4.jpg',
+    instructions: '''
+1. Cook diced chicken breast until fully done.
+
+2. Add chopped spinach and sauté briefly.
+
+3. In a bowl, beat eggs with a splash of milk, then pour over chicken and spinach.
+
+4. Stir continuously until eggs are cooked to a scramble.
+    ''',
+  ),
+  Recipe(
+    id: 5,
+    name: 'Avocado Spinach Smoothie',
+    ingredients: ['Avocado', 'Milk', 'Spinach'],
+    image: 'images/recipe5.jpg',
+    instructions: '''
+1. Blend half an avocado with a handful of spinach and a cup of milk.
+
+2. Add a touch of honey or banana for sweetness.
+
+3. Enjoy as a creamy green smoothie!
+    ''',
+  ),
   ];
 
   Recipe? _selectedRecipe;
@@ -713,10 +843,11 @@ class _RecipesPageState extends State<RecipesPage> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            const Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisi in faucibus ultrices, dolor nulla hendrerit lectus, non sagittis tellus nunc in massa. Sed consectetur felis ac turpis facilisis sollicitudin.',
-                              style: TextStyle(fontSize: 16),
+                            Text(
+                              _selectedRecipe!.instructions,
+                              style: const TextStyle(fontSize: 16),
                             ),
+
                             const SizedBox(height: 24),
                             SizedBox(
                               width: double.infinity,
