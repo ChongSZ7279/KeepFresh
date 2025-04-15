@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class Recipe {
 
 // Main screen with bottom navigation
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -147,7 +147,7 @@ class _MainScreenState extends State<MainScreen> {
 
 // Inventory Page
 class InventoryPage extends StatefulWidget {
-  const InventoryPage({Key? key}) : super(key: key);
+  const InventoryPage({super.key});
 
   @override
   State<InventoryPage> createState() => _InventoryPageState();
@@ -426,7 +426,7 @@ class _InventoryPageState extends State<InventoryPage> {
 
 // Scanner Page
 class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+  const ScannerPage({super.key});
 
   @override
   State<ScannerPage> createState() => _ScannerPageState();
@@ -654,7 +654,7 @@ class _ScannerPageState extends State<ScannerPage> {
 
 // Recipes Page
 class RecipesPage extends StatefulWidget {
-  const RecipesPage({Key? key}) : super(key: key);
+  const RecipesPage({super.key});
 
   @override
   State<RecipesPage> createState() => _RecipesPageState();
@@ -968,7 +968,7 @@ class _RecipesPageState extends State<RecipesPage> {
 
 // Alerts Page
 class AlertsPage extends StatelessWidget {
-  const AlertsPage({Key? key}) : super(key: key);
+  const AlertsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1142,7 +1142,7 @@ class AlertsPage extends StatelessWidget {
   }
 }
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1360,7 +1360,7 @@ class _SettingsItem extends StatelessWidget {
 
 // Add Item Manually Page
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({Key? key}) : super(key: key);
+  const AddItemPage({super.key});
 
   @override
   State<AddItemPage> createState() => _AddItemPageState();
@@ -1554,7 +1554,7 @@ class _AddItemPageState extends State<AddItemPage> {
 
 // Settings Page
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -1801,9 +1801,9 @@ class FoodDetailsPage extends StatefulWidget {
   final FoodItem item;
 
   const FoodDetailsPage({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   @override
   State<FoodDetailsPage> createState() => _FoodDetailsPageState();
@@ -2068,7 +2068,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
 
 // Statistics Page
 class StatisticsPage extends StatelessWidget {
-  const StatisticsPage({Key? key}) : super(key: key);
+  const StatisticsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
